@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/page2.dart';
 
 void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -30,61 +36,63 @@ class _MyHomePageState extends State<MyHomePage> {
   final List<String> entries = <String>[
     'Recent',
     'Flipkart',
-    'Screenshot',
+    'Screenshots',
     'Nainital',
     'WhereAbout',
     'frisking'
   ];
   @override
   Widget build(BuildContext context) {
-    var arrcol = [
-      Colors.red,
-      Colors.blue,
-      Colors.green,
-      Colors.blueGrey.shade100,
-      Colors.amber,
-      Colors.green.shade800,
-      Colors.amber.shade800,
-      Color.fromARGB(255, 10, 236, 55),
-      Colors.black38
-    ];
-    String arr = [
-      'https://pixabay.com/link/?ua=cd3%3Dimage%26cd7%3Den%253Anature%253AIND%26ec%3Dapi_ad%26ea%3Dnavigate%26el%3Dgetty%26tid%3DUA-20223345-1%26dr%3Dhttps%253A%252F%252Fpixabay.com%252Fimages%252Fsearch%252Fnature%252F&sp=%2524%3Dadvertisement_clicked%26action%3Dnavigate%26ad_partner%3Dgetty%26ad_content%3Dapi_ad%26ad_type%3D%26media_type%3Dimage%26media_id%3D&next=https%3A%2F%2Fwww.istockphoto.com%2Fphoto%2Fcrystal-globe-putting-on-moss-gm1410391090-460606186%3Futm_source%3Dpixabay%26utm_medium%3Daffiliate%26utm_campaign%3DSRP_image_sponsored%26utm_content%3Dhttps%253A%252F%252Fpixabay.com%252Fimages%252Fsearch%252Fnature%252F%26utm_term%3Dnature&hash=4d4c6404e508ae867e18f4c55c94bdb006de8695&=',
-      'https://pixabay.com/link/?ua=cd3%3Dimage%26cd7%3Den%253Anature%253AIND%26ec%3Dapi_ad%26ea%3Dnavigate%26el%3Dgetty%26tid%3DUA-20223345-1%26dr%3Dhttps%253A%252F%252Fpixabay.com%252Fimages%252Fsearch%252Fnature%252F&sp=%2524%3Dadvertisement_clicked%26action%3Dnavigate%26ad_partner%3Dgetty%26ad_content%3Dapi_ad%26ad_type%3D%26media_type%3Dimage%26media_id%3D&next=https%3A%2F%2Fwww.istockphoto.com%2Fphoto%2Fa-smiling-woman-standing-in-the-office-district-gm1402694261-455507005%3Futm_source%3Dpixabay%26utm_medium%3Daffiliate%26utm_campaign%3DSRP_image_sponsored%26utm_content%3Dhttps%253A%252F%252Fpixabay.com%252Fimages%252Fsearch%252Fnature%252F%26utm_term%3Dnature&hash=925207a1f27841aed403fbbb6a1bdd87efb2d2ff&=',
+    List<String> arr = [
+      'https://cdn.pixabay.com/photo/2023/03/05/16/20/sea-7831815_1280.jpg',
+      'https://media.istockphoto.com/id/1133046601/photo/light-underwater.jpg?s=1024x1024&w=is&k=20&c=1SIqZyje1Ifto1Vta68M29Q5c_5OzUDWG1HXt_ZN9VU=',
       'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg',
       'https://cdn.pixabay.com/photo/2015/12/01/20/28/road-1072823_1280.jpg',
       'https://cdn.pixabay.com/photo/2014/04/14/20/11/pink-324175_1280.jpg',
       'https://cdn.pixabay.com/photo/2015/07/05/10/18/tree-832079_1280.jpg',
-    ] as String;
+      'https://media.istockphoto.com/id/1296115846/photo/happy-child-boy-stock-photo.jpg?s=1024x1024&w=is&k=20&c=7LHJGYSLQMJiCBLvCaV72aShm3IJY24nVxE9a5cFos8=',
+      'https://media.istockphoto.com/id/1412428562/vector/africa-political-map-with-country-names-isolated-vector-illustration.jpg?s=1024x1024&w=is&k=20&c=sizlcEvuucKGd7Tht-XYJ2U0rrgBRRGcovKn98NmFSM=',
+      'https://media.istockphoto.com/id/803533956/photo/diwali-oil-lamp.jpg?s=1024x1024&w=is&k=20&c=xSxr-U_7BTmi70kYh7TuIRQeqQqjY4d3Gbm6T04jxOo=',
+      'https://media.istockphoto.com/id/1044388000/photo/priest-worshipping-goddess-durga-durga-puja-festival-celebration.jpg?s=612x612&w=0&k=20&c=ZNjOXd3OlItDgIPnU7rHJfcH-r33Q0dEzOknQLIMnlw=',
+      'https://media.istockphoto.com/id/1029328558/vector/illustration-of-lord-ganpati-background-for-ganesh-chaturthi-festival-of-india.jpg?s=612x612&w=0&k=20&c=im0j6kcacY-0UwOLA2eTjSo-ObvjtE-OfL2f_9gvai4=',
+      'https://media.istockphoto.com/id/1141737652/photo/portrait-of-a-confident-young-man.jpg?s=1024x1024&w=is&k=20&c=GwnR6CuiuHpu6ThoHMV_gaCfvh7UeZIRbSXFN7Mg17E=',
+      'https://media.istockphoto.com/id/483752415/photo/taj-mahal-mosque-india.jpg?s=1024x1024&w=is&k=20&c=ppnV-H_oPvPo7B2rzqctylSfaWBCzkYIJh3PpOOZFFU=',
+      'https://media.istockphoto.com/id/1069278366/vector/set-of-travel-visa-stamps-for-passports-international-and-immigration-office-stamps-arrival.jpg?s=612x612&w=0&k=20&c=KUgx29l1MJ0HnP9uqd9dZeVbIRXUMzadPLXoZYirJUg=',
+      'https://media.istockphoto.com/id/949472768/photo/tiger-portrait.jpg?s=612x612&w=0&k=20&c=cPI-hIwXxLwRYcGW3HaC_3C6J_MMIE_BbMjI9Ac0XNE=',
+      'https://media.istockphoto.com/id/949472768/photo/tiger-portrait.jpg?s=612x612&w=0&k=20&c=cPI-hIwXxLwRYcGW3HaC_3C6J_MMIE_BbMjI9Ac0XNE=',
+      'https://media.istockphoto.com/id/1363145508/photo/tourists-and-trackers-share-open-topped-jeep-off-road-4x4-for-animal-viewing-in-kanha.jpg?s=1024x1024&w=is&k=20&c=7aYHV2lgWuoqQTqTy5qtfYVSQG17_R_IhKjAF_aVG6E=',
+      'https://media.istockphoto.com/id/645313880/photo/flower-garden.jpg?s=1024x1024&w=is&k=20&c=tr7lILhHVvf0UM-zm2pLQAChq3BpY-JUa-n-M4btC_Y=',
+    ];
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.purple.shade200,
         leading: IconButton(
-          icon: Icon(Icons.settings),
+          icon: Icon(
+            Icons.settings,
+          ),
           onPressed: () {},
         ),
-        title: Container(
-          height: 40,
-          width: 40,
-          decoration: BoxDecoration(
-            color: const Color(0xff7c94b6),
-            image: const DecorationImage(
-              image: NetworkImage(
-                  'https://media.istockphoto.com/id/876003902/photo/the-color-flag.jpg?s=612x612&w=0&k=20&c=Ge0D9IKJnsRT2D7PNtowFjvRtcv_mi0HitYNC7GO0ZI='),
-              fit: BoxFit.cover,
+        title: Center(
+          child: Container(
+            height: 40,
+            width: 40,
+            decoration: BoxDecoration(
+              color: const Color(0xff7c94b6),
+              image: const DecorationImage(
+                image: NetworkImage(
+                    'https://media.istockphoto.com/id/876003902/photo/the-color-flag.jpg?s=612x612&w=0&k=20&c=Ge0D9IKJnsRT2D7PNtowFjvRtcv_mi0HitYNC7GO0ZI='),
+                fit: BoxFit.cover,
+              ),
+              borderRadius: BorderRadius.circular(12),
             ),
-            borderRadius: BorderRadius.circular(12),
           ),
         ),
         actions: [
-          Text(
-            'imagination',
-          ),
           Padding(
             padding: const EdgeInsets.all(15.0),
             child: Container(
-              height: 40,
-              width: 40,
+              height: 50,
+              width: 50,
               decoration: BoxDecoration(
                 color: const Color(0xff7c94b6),
                 image: const DecorationImage(
@@ -98,80 +106,126 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ],
       ),
-      body: Column(
-        // mainAxisAlignment: ,
-        children: [
-          Container(
-            height: 50,
-            child: ListView.builder(
-                shrinkWrap: true,
-                scrollDirection: Axis.horizontal,
-                padding: const EdgeInsets.all(8),
-                itemCount: entries.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return Container(
-                    height: 50,
-                    decoration: BoxDecoration(
-                      color: Colors.purple.shade100,
-                      border: Border.all(width: 2),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Text(' ${entries[index]}' + "     "),
-                  );
-                }),
-          ),
-          Text(
-            'MY GALLERY',
-          ),
-          Container(
-            height: 300,
-            width: 400,
-            child: GridView.builder(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3,
-                ),
-                itemCount: 12,
-                itemBuilder: (BuildContext context, int index) {
-                  return Card(
-                    color: Colors.amber,
-                    child: Center(child: Image.network('$index')),
-                  );
-                }),
-            // child: GridView.count(
-            //   crossAxisCount: 3,
-            //   children: [
-            //     // here we will write photos
-            //     Container(
-            //       color: arrcol[0],
-            //     ),
-            //     Container(
-            //       color: arrcol[1],
-            //     ),
-            //     Container(
-            //       color: arrcol[2],
-            //     ),
-            //     Container(
-            //       color: arrcol[3],
-            //     ),
-            //     Container(
-            //       color: arrcol[4],
-            //     ),
-            //     Container(
-            //       color: arrcol[5],
-            //     ),
-            //     Container(
-            //       color: arrcol[6],
-            //     ),
-            //     Container(
-            //       color: arrcol[7],
-            //     ),
-            //     Container(
-            //       color: arrcol[8],
-            //     ),
-            //   ],
-            // ),
-          )
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          // mainAxisAlignment: ,
+          children: [
+            Container(
+              height: 50,
+              child: ListView.builder(
+                  shrinkWrap: true,
+                  scrollDirection: Axis.horizontal,
+                  padding: const EdgeInsets.all(8),
+                  itemCount: entries.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return GestureDetector(
+                      onTap: () {
+                        print("index$index");
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => MyPage2(entries[index])),
+                        );
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(2.0),
+                        child: Container(
+                          height: 50,
+                          decoration: BoxDecoration(
+                            color: Colors.grey.shade300,
+                            // border: Border.all(width: 2),
+                            borderRadius: BorderRadius.circular(2),
+                          ),
+                          child: Center(
+                              child: Text(
+                            '  ${entries[index]} ',
+                            style: TextStyle(color: Colors.black54),
+                          )),
+                        ),
+                      ),
+                    );
+                  }),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                children: [
+                  Text(
+                    'My Gallery',
+                    style: TextStyle(fontSize: 25, fontWeight: FontWeight.w600),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              height: 300,
+              width: 400,
+              child: GridView.builder(
+                  scrollDirection: Axis.horizontal,
+                  shrinkWrap: true,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                  ),
+                  itemCount: arr.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Card(
+                        color: Colors.amber,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                                fit: BoxFit.cover,
+                                image: NetworkImage(arr[index])),
+                          ),
+                        )
+
+                        //  Image.network(arr[index])),
+                        );
+                  }),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                children: [
+                  Text('Get Inspired',
+                      style: TextStyle(
+                        fontSize: 25,
+                        fontWeight: FontWeight.w600,
+                      )),
+                  Container(
+                      height: 30,
+                      width: 30,
+                      decoration: new BoxDecoration(
+                          image: new DecorationImage(
+                        image: NetworkImage(
+                            'https://www.freeiconspng.com/uploads/fire-vector-icon-png-27.png'),
+                        fit: BoxFit.fill,
+                      )))
+                ],
+              ),
+            ),
+            Container(
+              height: 400,
+              width: 400,
+              child: GridView.builder(
+                  scrollDirection: Axis.horizontal,
+                  shrinkWrap: true,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 3),
+                  itemCount: arr.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Card(
+                        color: Colors.amber,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                                fit: BoxFit.cover,
+                                image: NetworkImage(arr[index])),
+                          ),
+                        ));
+                  }),
+            )
+          ],
+        ),
       ),
 
       // This trailing comma makes auto-formatting nicer for build methods.
