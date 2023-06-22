@@ -1,0 +1,10 @@
+class Todo {
+  String? id;
+  String? todoText;
+  bool isDone;
+
+Todo({
+  required this.id,
+});
+
+}
