@@ -1,3 +1,6 @@
+import 'dart:js_util';
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 class MyPage4 extends StatefulWidget {
@@ -7,7 +10,8 @@ class MyPage4 extends StatefulWidget {
 
 class _MyApp4 extends State<MyPage4> {
   final mycontroller = TextEditingController();
-  final List<String> todos = <String>[];
+  final List<String> todos = <String>['home', 'shop', 'exam', 'window'];
+  int counter = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -39,48 +43,22 @@ class _MyApp4 extends State<MyPage4> {
                       backgroundColor: MaterialStateProperty.all<Color>(
                           Colors.purple.shade100),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      counter += 1;
+                    },
                     child: Text(
                         style: TextStyle(color: Colors.black), 'Add Todo')),
                 SizedBox(
                   height: 10,
                 ),
                 Container(
-                  child: ListTile(
-                    onTap: () {print('clicked on the tile')},
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20)),
-                    contentPadding:
-                        EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                    tileColor: Colors.grey,
-                    leading: Container(
-                      padding: EdgeInsets.all(0),
-                      margin: EdgeInsets.symmetric(vertical: 12),
-                      height: 30,
-                      width: 35,
-                      decoration: BoxDecoration(
-                          color: Colors.red,
-                          borderRadius: BorderRadius.circular(5)),
-                      child: IconButton(
-                          onPressed: (){
-                            print('clicked on delete item ');
-                          },
-                          color: Colors.white,
-                          iconSize: 18,
-                          icon: Icon(Icons.delete)),
-                    ),
-                    title: Text(
-                      'check mail',
-                      style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.black,
-                          decoration: TextDecoration.lineThrough),
-                    ),
-                    trailing: Icon(
-                      Icons.check_box,
-                      color: Colors.blue.shade200,
-                    ),
-                  ),
+                  height: 1000,
+                  child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: counter,
+                      itemBuilder: (BuildContext context, int counter) {
+                        return Text('ghhhhgg');
+                      }),
                 )
               ],
             ),

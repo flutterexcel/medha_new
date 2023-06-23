@@ -203,7 +203,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       width: 30,
                       decoration: new BoxDecoration(
                           image: new DecorationImage(
-                        image: NetworkImage(
+                          image: NetworkImage(
                             'https://www.freeiconspng.com/uploads/fire-vector-icon-png-27.png'),
                         fit: BoxFit.fill,
                       )))
