@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/page2.dart';
-import 'package:flutter_application_1/page_4.dart';
+import 'package:flutter_application_medha/page2.dart';
+import 'package:flutter_application_medha/page_4.dart';
 
 void main() {
   runApp(const MyApp());

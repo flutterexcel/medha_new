@@ -13,26 +13,16 @@ class MyPage4 extends StatefulWidget {
 class _MyApp4 extends State<MyPage4> {
   final mycontroller = TextEditingController();
   final mycontroller2 = TextEditingController();
+  List<int> mycontroller3 = [];
   final List<String> todos = <String>[];
   String text = ' ';
-  bool isChecked = false;
-
-  //int counter = 0;
+  static int _len = 100;
+  // bool isChecked = false;
+  List<bool> isChecked = List.generate(_len, (index) => false);
 
   @override
   Widget build(BuildContext context) {
     // get color function
-    Color getColor(Set<MaterialState> states) {
-      const Set<MaterialState> interactiveStates = <MaterialState>{
-        MaterialState.pressed,
-        MaterialState.hovered,
-        MaterialState.focused,
-      };
-      if (states.any(interactiveStates.contains)) {
-        return Colors.blue;
-      }
-      return Colors.red;
-    }
 
     return Scaffold(
       // appbar build
@@ -76,6 +66,18 @@ class _MyApp4 extends State<MyPage4> {
                 SizedBox(
                   height: 10,
                 ),
+
+                //inkwell delete
+                IconButton(
+                    onPressed: () {
+                      for (int i = 0; i < mycontroller3.length; i++) {
+                        todos.removeAt(mycontroller3[i]);
+                        isChecked[mycontroller3[i]] = false;
+                        print("tyyy$todos");
+                      }
+                      setState(() {});
+                    },
+                    icon: Icon(Icons.delete_forever)),
                 // here starts the container for list tile
                 Container(
                   height: 1000,
@@ -85,64 +87,66 @@ class _MyApp4 extends State<MyPage4> {
                       itemBuilder: (BuildContext context, int index) {
                         return Container(
                           margin: EdgeInsets.all(4),
-                          child: ListTile(
-                            leading: GestureDetector(
-                                onDoubleTap: () {
-                                  // edit option
-                                  mycontroller2.text = todos[index];
-                                  // dialouge box
-                                  showDialog(
-                                      context: context,
-                                      builder: (context) => SimpleDialog(
-                                            children: [
-                                              TextField(
-                                                // text field input of dialouge box for editing purpose
-                                                controller: mycontroller2,
-                                                // onChanged: (value) {
-                                                //   setState(() {
-                                                //     text = value;
-                                                //   });
-                                                // },
-                                                // decoration: InputDecoration(
-                                                //   hintText: todos[index]),
-                                              ),
-                                              ElevatedButton(
-                                                  // this is elevate buttn of dialouge box
-                                                  onPressed: () {
-                                                    setState(() {
-                                                      todos[index] =
-                                                          mycontroller2.text;
-                                                    });
-                                                    Navigator.pop(context);
-                                                  },
-                                                  child: Text('Update'))
-                                            ],
-                                          ));
-                                },
-                                child: Icon(Icons.edit)),
+                          child: CheckboxListTile(
+                            value: isChecked[index],
+                            selected: isChecked[index],
+                            onChanged: (value) {
+                              setState(() {
+                                isChecked[index] = value!;
+                                mycontroller3.add(index);
+                                print("mycontroller3$mycontroller3");
+                              });
+
+                              // isChecked = false;
+                            },
+                            secondary: Container(
+                              padding: EdgeInsets.only(top: 15),
+                              child: GestureDetector(
+                                  onDoubleTap: () {
+                                    // edit option
+                                    mycontroller2.text = todos[index];
+                                    // dialouge box
+                                    showDialog(
+                                        context: context,
+                                        builder: (context) => SimpleDialog(
+                                              children: [
+                                                TextField(
+                                                  controller: mycontroller2,
+                                                ),
+                                                ElevatedButton(
+                                                    // this is elevate buttn of dialouge box
+                                                    onPressed: () {
+                                                      setState(() {
+                                                        todos[index] =
+                                                            mycontroller2.text;
+                                                      });
+                                                      Navigator.pop(context);
+                                                    },
+                                                    child: Text('Update'))
+                                              ],
+                                            ));
+                                  },
+                                  child: Icon(Icons.edit)),
+                            ),
                             title: Text('  ${todos[index]} '),
                             tileColor: Colors.grey.shade300,
                             // last part of tile
-                            trailing: Row(
-                              children: [
-                                Container(
-                                  width: 50,
-                                  child: Checkbox(
-                                      value: isChecked,
-                                      onChanged: (bool? value) {
-                                        setState(() {
-                                          isChecked = value!;
-                                        });
-                                      }),
+                            subtitle: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Container(
+                                width: 80,
+                                child: Row(
+                                  children: [
+                                    GestureDetector(
+                                        onTap: () {
+                                          setState(() {
+                                            todos.removeAt(index);
+                                          });
+                                        },
+                                        child: Icon(Icons.delete)),
+                                  ],
                                 ),
-                                GestureDetector(
-                                    onTap: () {
-                                      setState(() {
-                                        todos.removeAt(index);
-                                      });
-                                    },
-                                    child: Icon(Icons.delete)),
-                              ],
+                              ),
                             ),
                           ),
                         );
