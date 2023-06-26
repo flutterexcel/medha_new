@@ -16,9 +16,18 @@ class _MyApp4 extends State<MyPage4> {
   List<int> mycontroller3 = [];
   final List<String> todos = <String>[];
   String text = ' ';
+  //int itr = 0;
   static int _len = 100;
   // bool isChecked = false;
   List<bool> isChecked = List.generate(_len, (index) => false);
+
+  void refresh() {
+    setState(() {});
+  }
+
+  clearlist() {
+    mycontroller3.clear();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,6 +51,7 @@ class _MyApp4 extends State<MyPage4> {
               ),
               // textfield and controller
               child: TextField(
+                textInputAction: TextInputAction.go, // text input action
                 controller: mycontroller,
               ),
             ),
@@ -57,25 +67,63 @@ class _MyApp4 extends State<MyPage4> {
                           Colors.purple.shade100),
                     ),
                     onPressed: () {
-                      todos.add(mycontroller.text.toUpperCase());
+                      //
+                      if (mycontroller.text.isEmpty) {
+                        var snack = SnackBar(
+                          content: Text('empty text'),
+                        );
+                        ScaffoldMessenger.of(context).showSnackBar(snack);
+
+                        // dialouge box___
+                        // showDialog(
+                        //     context: context,
+                        //     builder: (context) {
+                        //       return AlertDialog(
+                        //         title: const Text('empty string '),
+
+                        //         /// content: const Text('AlertDialog description'),
+                        //         actions: <Widget>[
+                        //           TextButton(
+                        //             onPressed: () =>
+                        //                 Navigator.pop(context, 'OK'),
+                        //             child: const Text('OK'),
+                        //           ),
+                        //         ],
+                        //       );
+                        //     });
+                      }
+                      if (mycontroller.text.isEmpty == false) {
+                        todos.add(mycontroller.text.toUpperCase());
+                      }
                       mycontroller.clear();
                       setState(() {});
                     },
                     child: Text(
-                        style: TextStyle(color: Colors.black), 'Add Todo')),
+                      style: TextStyle(
+                        color: Colors.black,
+                        //decoration: TextDecoration.lineThrough
+                      ),
+                      'Add Todo',
+                    )),
                 SizedBox(
                   height: 10,
                 ),
 
-                //inkwell delete
+                //inkwell delete////////////////////////
                 IconButton(
                     onPressed: () {
                       for (int i = 0; i < mycontroller3.length; i++) {
                         todos.removeAt(mycontroller3[i]);
+                        todos.insert(mycontroller3[i], 'medha');
                         isChecked[mycontroller3[i]] = false;
+                        // itr += 1;
                         print("tyyy$todos");
                       }
-                      setState(() {});
+
+                      todos.removeWhere((element) => element == 'medha');
+                      setState(() {
+                        clearlist();
+                      });
                     },
                     icon: Icon(Icons.delete_forever)),
                 // here starts the container for list tile
@@ -93,7 +141,14 @@ class _MyApp4 extends State<MyPage4> {
                             onChanged: (value) {
                               setState(() {
                                 isChecked[index] = value!;
-                                mycontroller3.add(index);
+
+                                ///error 1
+                                if (isChecked[index] == true) {
+                                  mycontroller3.add(index);
+                                } else {
+                                  mycontroller3.remove(index);
+                                }
+
                                 print("mycontroller3$mycontroller3");
                               });
 
@@ -128,7 +183,14 @@ class _MyApp4 extends State<MyPage4> {
                                   },
                                   child: Icon(Icons.edit)),
                             ),
-                            title: Text('  ${todos[index]} '),
+
+                            //title: Text('{$todos}'),
+                            title: isChecked[index]
+                                ? Text('${todos[index]}',
+                                    style: TextStyle(
+                                        decoration: TextDecoration.lineThrough))
+                                : Text('${todos[index]}'),
+
                             tileColor: Colors.grey.shade300,
                             // last part of tile
                             subtitle: Padding(
@@ -160,3 +222,21 @@ class _MyApp4 extends State<MyPage4> {
     );
   }
 }
+
+// class DialogAlert extends StatelessWidget {
+//   const DialogAlert({super.key});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return AlertDialog(
+//       title: const Text('empty string '),
+//       content: const Text('AlertDialog description'),
+//       actions: <Widget>[
+//         TextButton(
+//           onPressed: () => Navigator.pop(context, 'OK'),
+//           child: const Text('OK'),
+//         ),
+//       ],
+//     );
+//   }
+// }
