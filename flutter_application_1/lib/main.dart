@@ -1,13 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_medha/page2.dart';
 import 'package:flutter_application_medha/page_4.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() {
-  runApp(const MyApp());
+Future main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+      options: FirebaseOptions(
+          apiKey: "AIzaSyBH3KTjV7kMZhi3gJFlnP9SqsOLrVqw5Hs",
+          appId: "1:906108313112:web:a79dcaf82a5bdae586ad6d",
+          messagingSenderId: " 906108313112",
+          projectId: "todo-app-491db"));
+  runApp(MyApp());
 }
 
 class MyApp extends StatefulWidget {
-  const MyApp({super.key});
+  MyApp({super.key});
 
   @override
   State<MyApp> createState() => _MyAppState();
@@ -18,9 +26,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    );
+        debugShowCheckedModeBanner: false, home: MyHomePage(title: 'Todo App'));
   }
 }
 
