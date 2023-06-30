@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_medha/page2.dart';
+import 'package:flutter_application_medha/page6.dart';
 import 'package:flutter_application_medha/page_4.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -98,7 +99,7 @@ class _MyHomePageState extends State<MyHomePage> {
           GestureDetector(
             onTap: () {
               Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => MyPage4()));
+                  context, MaterialPageRoute(builder: (context) => MyPage6()));
             },
             child: Padding(
               padding: const EdgeInsets.all(15.0),

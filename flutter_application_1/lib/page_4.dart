@@ -2,7 +2,8 @@
 //import 'dart:math';
 
 import 'dart:js_util';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class MyPage4 extends StatefulWidget {
@@ -27,6 +28,34 @@ class _MyApp4 extends State<MyPage4> {
 
   clearlist() {
     mycontroller3.clear();
+  }
+
+  late DocumentReference dr;
+  int counter = 0;
+  // function to add the task to fire base
+  //
+  Future addtasktofirebase() async {
+    print("gvgvgvgv");
+    var time = DateTime.now();
+    await FirebaseFirestore.instance
+        .collection('task')
+        .doc(counter.toString())
+        .set(
+            {"Todo": mycontroller.text, "time": time.toString(), "id": counter})
+        .then((value) => print("User Added"))
+        .catchError((error) => print("Failed to add user: $error"));
+
+    counter++;
+  }
+
+  Future removetasktofirebase() async {
+    print('zdecdfcer');
+    FirebaseFirestore.instance
+        .collection('task')
+        .doc('id')
+        .delete()
+        .then((value) => print("deleted"))
+        .catchError((error) => print("Failed to add user: $error"));
   }
 
   @override
@@ -85,6 +114,7 @@ class _MyApp4 extends State<MyPage4> {
                             Colors.purple.shade100),
                       ),
                       onPressed: () {
+                        addtasktofirebase();
                         if (mycontroller.text.isEmpty) {
                           var snack = SnackBar(
                             content: Text('empty text'),
@@ -108,7 +138,7 @@ class _MyApp4 extends State<MyPage4> {
                     height: 10,
                   ),
 
-                  //inkwell delete////////////////////////
+                  //inkwell delete
                   IconButton(
                       onPressed: () {
                         for (int i = 0; i < mycontroller3.length; i++) {
@@ -181,6 +211,8 @@ class _MyApp4 extends State<MyPage4> {
                                         children: [
                                           GestureDetector(
                                               onTap: () {
+                                                removetasktofirebase();
+                                               // Navigator.pop(context);
                                                 setState(() {
                                                   todos.removeAt(index);
                                                 });
