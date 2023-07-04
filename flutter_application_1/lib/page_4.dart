@@ -48,7 +48,8 @@ class _MyApp4 extends State<MyPage4> {
     counter++;
   }
 
-  Future removetasktofirebase() async {
+  Future removetasktofirebase() async
+   {
     print('zdecdfcer');
     FirebaseFirestore.instance
         .collection('task')
@@ -260,6 +261,7 @@ class _MyApp4 extends State<MyPage4> {
                                       width: 10,
                                     ),
                                     Container(
+                                      /////// 
                                       child: isChecked[index]
                                           ? Text(" " + '${todos[index]}',
                                               style: TextStyle(

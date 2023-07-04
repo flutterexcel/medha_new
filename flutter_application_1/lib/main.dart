@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_medha/page2.dart';
 import 'package:flutter_application_medha/page6.dart';
-import 'package:flutter_application_medha/page_4.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 Future main() async {
@@ -27,7 +26,8 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        debugShowCheckedModeBanner: false, home: MyHomePage(title: 'Todo App'));
+        debugShowCheckedModeBanner: false,
+        home: MyHomePage(title: 'Todo App'));
   }
 }
 
@@ -224,7 +224,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   scrollDirection: Axis.horizontal,
                   shrinkWrap: true,
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 3),
+                  crossAxisCount: 3),
                   itemCount: arr.length,
                   itemBuilder: (BuildContext context, int index) {
                     return Card(

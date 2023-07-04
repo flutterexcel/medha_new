@@ -1,6 +1,3 @@
-//import 'dart:js_util';
-//import 'dart:math';
-
 import 'dart:js_util';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -15,13 +12,9 @@ class MyPage6 extends StatefulWidget {
 class _MyPage6 extends State<MyPage6> {
   final mycontroller = TextEditingController();
   final mycontroller2 = TextEditingController();
-  List<int> mycontroller3 = [];
+  List<String> mycontroller3 = [];
   final List<String> todos = <String>[];
   String text = ' ';
-
-  static int _len = 100;
-  // bool isChecked = false;
-  List<bool> isChecked = List.generate(_len, (index) => false);
 
   void refresh() {
     setState(() {});
@@ -34,7 +27,6 @@ class _MyPage6 extends State<MyPage6> {
   late DocumentReference dr;
   int counter = 0;
   // function to add the task to fire base
-  //
   Future addtasktofirebase() async {
     print("gvgvgvgv");
     var time = DateTime.now();
@@ -53,14 +45,36 @@ class _MyPage6 extends State<MyPage6> {
     counter++;
   }
 
-  Future removetasktofirebase() async {
+  Future updateTasktofirebase({String? docId, bool isCheck = false}) async {
+    await FirebaseFirestore.instance
+        .collection('task')
+        .doc(docId)
+        .update({"ischeck": isCheck})
+        .then((value) => print("User Added"))
+        .catchError((error) => print("Failed to add user: $error"));
+  }
+
+  Future updateTexttofirebase({String? docId, required String edited}) async {
+    await FirebaseFirestore.instance
+        .collection('task')
+        .doc(docId)
+        .update({"Todo": edited})
+        .then((value) => print("User Added"))
+        .catchError((error) => print("Failed to add user: $error"));
+  }
+
+  Future removetasktofirebase(String? docId) async {
     print('zdecdfcer');
     FirebaseFirestore.instance
         .collection('task')
-        .doc('id')
+        .doc(docId)
         .delete()
         .then((value) => print("deleted"))
         .catchError((error) => print("Failed to add user: $error"));
+  }
+
+  Future removemultiplefirebase() async {
+    print('abab');
   }
 
   @override
@@ -91,6 +105,7 @@ class _MyPage6 extends State<MyPage6> {
                   autofocus: true,
                   cursorColor: Colors.black,
                   // showCursor: true,
+                  // on submitted is property of textfield to enter the data fr
                   onSubmitted: (value) {
                     if (mycontroller.text.isEmpty) {
                       var snack = SnackBar(
@@ -99,11 +114,14 @@ class _MyPage6 extends State<MyPage6> {
                       ScaffoldMessenger.of(context).showSnackBar(snack);
                     }
                     if (mycontroller.text.isEmpty == false) {
-                      todos.add(mycontroller.text.toUpperCase());
+                      addtasktofirebase();
+                      //todos.add(mycontroller.text.toUpperCase());
                     }
                     mycontroller.clear();
                     setState(() {});
                   },
+                  //textInputAction: TextInputAction.go,
+
                   controller: mycontroller,
                 ),
               ),
@@ -139,207 +157,289 @@ class _MyPage6 extends State<MyPage6> {
                         ),
                         'Add Todo',
                       )),
-                  TextButton(
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => DisplayData()));
-                      },
-                      child: Text('Display')),
+                  // TextButton(
+                  //     onPressed: () {
+                  //       Navigator.push(
+                  //           context,
+                  //           MaterialPageRoute(
+                  //               builder: (context) => DisplayData()));
+                  //     },
+                  //     child: Text('Display')),
                   SizedBox(
                     height: 10,
                   ),
 
-                  //inkwell delete
-                  IconButton(
-                      onPressed: () {
-                        for (int i = 0; i < mycontroller3.length; i++) {
-                          todos.removeAt(mycontroller3[i]);
-                          todos.insert(mycontroller3[i], 'medha');
-                          isChecked[mycontroller3[i]] = false;
-                          // itr += 1;
-                          print("tyyy$todos");
-                        }
+                  //deleteing multiple
+                  // StreamBuilder<QuerySnapshot>(
+                  //     stream: FirebaseFirestore.instance
+                  //         .collection('task')
+                  //         .snapshots(),
+                  //     builder: (BuildContext context,
+                  //         AsyncSnapshot<QuerySnapshot> snapshot) {
+                  //       // if(snapshot.data.docs.length)
 
-                        todos.removeWhere((element) => element == 'medha');
-                        setState(() {
-                          clearlist();
-                        });
-                      },
-                      icon: Icon(Icons.delete_forever)),
+                  //       return IconButton(
+                  //           onPressed: () {
+                  //             for (int i = 0; i < mycontroller3.length; i++) {
+                  //               removetasktofirebase(mycontroller3[i]);
+
+                  //               // todos.removeAt(mycontroller3[i]);
+                  //               // todos.insert(mycontroller3[i], 'medha');
+                  //               // isChecked[mycontroller3[i]] = false;
+                  //               // itr += 1;
+
+                  //               print("tyyy$todos");
+                  //             }
+
+                  //             //  todos.removeWhere((element) => element == 'medha');
+                  //             setState(() {
+                  //               clearlist();
+                  //             });
+                  //           },
+                  //           icon: Icon(Icons.delete_forever));
+                  //     }),
+
                   //  here starts the container for list tile
                   Container(
-                    height: 1000,
+                    //height: 500,
                     child: StreamBuilder<QuerySnapshot>(
                         stream: FirebaseFirestore.instance
                             .collection('task')
                             .snapshots(),
                         builder: (BuildContext context,
                             AsyncSnapshot<QuerySnapshot> snapshot) {
-                          return ListView.builder(
-                              shrinkWrap: true,
-                              itemCount: todos.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                return Dismissible(
-                                  key: UniqueKey(),
-                                  onDismissed: (_) {
-                                    setState(() {
-                                      todos.removeAt(index);
-                                    });
-                                  },
-                                  background: Container(
-                                    color: Colors.red,
-                                    margin: const EdgeInsets.symmetric(
-                                        horizontal: 15),
-                                    alignment: Alignment.centerRight,
-                                    child: const Icon(
-                                      Icons.delete,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                  child: Container(
-                                    margin: EdgeInsets.all(4),
-                                    child: CheckboxListTile(
-                                      value: isChecked[index],
-                                      selected: isChecked[index],
-                                      onChanged: (value) {
-                                        setState(() {
-                                          isChecked[index] = value!;
+                          if (snapshot.data!.docs.length == 0) {
+                            print('snapshothasdata');
+                            return Container(
+                              height: 200,
+                              width: 200,
+                              color: Colors.red,
+                              child: Center(
+                                child: Text('No Text To Display'),
+                              ),
+                            );
+                          } else {
+                            return Column(
+                              children: [
+                                ListView.builder(
+                                    shrinkWrap: true,
+                                    itemCount: snapshot.data!.docs.length,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      return Dismissible(
+                                        key: UniqueKey(),
+                                        onDismissed: (_) {
+                                          setState(() {
+                                            // todos.removeAt(index);
+                                            removetasktofirebase(
+                                                snapshot.data!.docs[index].id);
+                                          });
+                                        },
+                                        background: Container(
+                                          color: Colors.red,
+                                          margin: const EdgeInsets.symmetric(
+                                              horizontal: 15),
+                                          alignment: Alignment.centerRight,
+                                          child: const Icon(
+                                            Icons.delete,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                        child: Container(
+                                          margin: EdgeInsets.all(4),
+                                          child: CheckboxListTile(
+                                            value: snapshot.data!.docs[index]
+                                                ['ischeck'],
+                                            // selected: isChecked[index],
+                                            activeColor: Colors.red,
+                                            onChanged: (value) {
+                                              updateTasktofirebase(
+                                                  docId: snapshot
+                                                      .data!.docs[index].id,
+                                                  isCheck: value!);
 
-                                          ///error 1
-                                          if (isChecked[index] == true) {
-                                            mycontroller3.add(index);
-                                          } else {
-                                            mycontroller3.remove(index);
-                                          }
+                                              setState(() {
+                                                mycontroller3.add(snapshot
+                                                    .data!.docs[index].id);
 
-                                          print("mycontroller3$mycontroller3");
-                                        });
+                                                //  isChecked[index] = value!;
 
-                                        // isChecked = false;
-                                      },
+                                                ///error 1
+                                                // if (isChecked[index] == true) {
+                                                //   mycontroller3.add(index);
+                                                // } else {
+                                                //   mycontroller3.remove(index);
+                                                // }
 
-                                      title: Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          Container(
-                                            width: 40,
-                                            child: Row(
+                                                print(
+                                                    "mycontroller3$mycontroller3");
+                                              });
+
+                                              // isChecked = false;
+                                            },
+
+                                            title: Row(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
                                               children: [
-                                                GestureDetector(
-                                                    onTap: () {
-                                                      removetasktofirebase();
-                                                      // Navigator.pop(context);
-                                                      setState(() {
-                                                        todos.removeAt(index);
-                                                      });
-                                                    },
-                                                    child: Icon(Icons.delete)),
+                                                Container(
+                                                  width: 40,
+                                                  child: Row(
+                                                    children: [
+                                                      GestureDetector(
+                                                          onTap: () {
+                                                            removetasktofirebase(
+                                                                snapshot
+                                                                    .data!
+                                                                    .docs[index]
+                                                                    .id);
+                                                            setState(() {
+                                                              todos.removeAt(
+                                                                  index);
+                                                            });
+                                                          },
+                                                          child: Icon(
+                                                              Icons.delete)),
+                                                    ],
+                                                  ),
+                                                ),
+                                                Container(
+                                                  child: GestureDetector(
+                                                      onDoubleTap: () {
+                                                        //mycontroller2.text =
+                                                        // todos[index];
+
+                                                        showDialog(
+                                                          context: context,
+                                                          builder: (context) =>
+                                                              AlertDialog(
+                                                            title: Text('EDIT'),
+                                                            content: TextField(
+                                                              controller:
+                                                                  mycontroller2,
+                                                              decoration:
+                                                                  InputDecoration(
+                                                                      hintText:
+                                                                          ''),
+                                                            ),
+                                                            actions: [
+                                                              TextButton(
+                                                                  onPressed:
+                                                                      () {
+                                                                    updateTexttofirebase(
+                                                                        docId: snapshot
+                                                                            .data!
+                                                                            .docs[
+                                                                                index]
+                                                                            .id,
+                                                                        edited:
+                                                                            mycontroller2.text);
+
+                                                                    Navigator.of(
+                                                                            context)
+                                                                        .pop(mycontroller2
+                                                                            .text);
+                                                                  },
+                                                                  child: Text(
+                                                                      'submit'))
+                                                            ],
+                                                          ),
+                                                        );
+                                                      },
+                                                      child: Icon(Icons.edit)),
+                                                ),
+                                                SizedBox(
+                                                  width: 10,
+                                                ),
+                                                Container(
+                                                  child: snapshot
+                                                              .data!.docs[index]
+                                                          ['ischeck']
+                                                      ? Text(
+                                                          '${snapshot.data!.docs[index]['Todo']}',
+                                                          style: TextStyle(
+                                                              decoration:
+                                                                  TextDecoration
+                                                                      .lineThrough,
+                                                              fontSize: 20))
+                                                      : Text(" " +
+                                                          '${snapshot.data!.docs[index]['Todo']}'),
+                                                ),
+                                                // Container(
+                                                //   child: StreamBuilder<QuerySnapshot>(
+                                                //     stream: FirebaseFirestore.instance
+                                                //         .collection('task')
+                                                //         .snapshots(),
+                                                //     builder: (BuildContext context,
+                                                //         AsyncSnapshot<QuerySnapshot>
+                                                //             snapshot) {
+                                                //       if (!snapshot.hasData) {
+                                                //         return Center(
+                                                //           child: Text('No data found'),
+                                                //         );
+                                                //       } else {
+                                                //         print('reached here');
+                                                //         return Container(
+                                                //           height: 500,
+                                                //           width: 500,
+                                                //           child: ListView.builder(
+                                                //             itemCount:
+                                                //                 snapshot.data!.docs.length,
+                                                //             itemBuilder: (context, index) {
+                                                //               return Column(
+                                                //                 children: <Widget>[
+                                                //                   Text(
+                                                //                       'Todo : ${snapshot.data!.docs[index]['Todo']}'),
+                                                //                   Text(
+                                                //                       'id: ${snapshot.data!.docs[index]['id']}'),
+                                                //                   Text(
+                                                //                       'time: ${snapshot.data!.docs[index]['time']}'),
+                                                //                 ],
+                                                //               );
+                                                //             },
+                                                //           ),
+                                                //         );
+                                                //       }
+                                                //     },
+                                                //   ),
+                                                // ),
                                               ],
                                             ),
-                                          ),
-                                          Container(
-                                            // padding:
-                                            //     EdgeInsets.only(top: 15, right: 15),
-                                            child: GestureDetector(
-                                                onDoubleTap: () {
-                                                  // edit option
-                                                  mycontroller2.text =
-                                                      todos[index];
-                                                  // dialouge box
-                                                  showDialog(
-                                                      context: context,
-                                                      builder: (context) =>
-                                                          SimpleDialog(
-                                                            children: [
-                                                              TextField(
-                                                                controller:
-                                                                    mycontroller2,
-                                                              ),
-                                                              // ElevatedButton(
-                                                              //     // this is elevate buttn of dialouge box
-                                                              //     onPressed: () {
-                                                              //       setState(() {
-                                                              //         todos[index] =
-                                                              //             mycontroller2
-                                                              //                 .text;
-                                                              //       });
-                                                              //       Navigator.pop(
-                                                              //           context);
-                                                              //     },
-                                                              //     child:
-                                                              //         Text('Update'))
-                                                            ],
-                                                          ));
-                                                },
-                                                child: Icon(Icons.edit)),
-                                          ),
-                                          SizedBox(
-                                            width: 10,
-                                          ),
-                                          Container(
-                                            child: isChecked[index]
-                                                ? Text(" " + '${todos[index]}',
-                                                    style: TextStyle(
-                                                        decoration:
-                                                            TextDecoration
-                                                                .lineThrough,
-                                                        fontSize: 20))
-                                                : Text(" " + '${todos[index]}'),
-                                          ),
-                                          // Container(
-                                          //   child: StreamBuilder<QuerySnapshot>(
-                                          //     stream: FirebaseFirestore.instance
-                                          //         .collection('task')
-                                          //         .snapshots(),
-                                          //     builder: (BuildContext context,
-                                          //         AsyncSnapshot<QuerySnapshot>
-                                          //             snapshot) {
-                                          //       if (!snapshot.hasData) {
-                                          //         return Center(
-                                          //           child: Text('No data found'),
-                                          //         );
-                                          //       } else {
-                                          //         print('reached here');
-                                          //         return Container(
-                                          //           height: 500,
-                                          //           width: 500,
-                                          //           child: ListView.builder(
-                                          //             itemCount:
-                                          //                 snapshot.data!.docs.length,
-                                          //             itemBuilder: (context, index) {
-                                          //               return Column(
-                                          //                 children: <Widget>[
-                                          //                   Text(
-                                          //                       'Todo : ${snapshot.data!.docs[index]['Todo']}'),
-                                          //                   Text(
-                                          //                       'id: ${snapshot.data!.docs[index]['id']}'),
-                                          //                   Text(
-                                          //                       'time: ${snapshot.data!.docs[index]['time']}'),
-                                          //                 ],
-                                          //               );
-                                          //             },
-                                          //           ),
-                                          //         );
-                                          //       }
-                                          //     },
-                                          //   ),
-                                          // ),
-                                        ],
-                                      ),
 
-                                      tileColor: Colors.grey.shade300,
-                                      // last part of tile
-                                      //subtitle
-                                      subtitle: Row(
-                                        children: [],
-                                      ),
-                                    ),
-                                  ),
-                                );
-                              });
+                                            tileColor: Colors.grey.shade300,
+                                            // last part of tile
+                                            //subtitle
+                                            subtitle: Row(
+                                              children: [],
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    }),
+                                IconButton(
+                                    onPressed: () {
+                                      for (int i = 0;
+                                          i < mycontroller3.length;
+                                          i++) {
+                                        removetasktofirebase(mycontroller3[i]);
+
+                                        // todos.removeAt(mycontroller3[i]);
+                                        // todos.insert(mycontroller3[i], 'medha');
+                                        // isChecked[mycontroller3[i]] = false;
+                                        // itr += 1;
+
+                                        print("tyyy$todos");
+                                      }
+
+                                      //  todos.removeWhere((element) => element == 'medha');
+                                      setState(() {
+                                        clearlist();
+                                      });
+                                    },
+                                    icon: Icon(Icons.delete_forever)),
+                              ],
+                            );
+                          }
                         }),
                   ),
                 ],
